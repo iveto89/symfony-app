@@ -5,8 +5,10 @@
 /.env.local.php
 /.env.*.local
 /public/bundles/
+/public/build/
 /var/
 /vendor/
+/node_modules/
 /.idea/
 /.docker/
 ###< symfony/framework-bundle ###
