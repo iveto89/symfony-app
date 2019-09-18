@@ -41,7 +41,7 @@ class User implements UserInterface, \Serializable
     public function getRoles()
     {
         return [
-            ROLE_USER
+            'ROLE_USER'
         ];
     }
 
@@ -67,7 +67,7 @@ class User implements UserInterface, \Serializable
 
     public function serialize()
     {
-        return $this->serialize([
+        return serialize([
             $this->id,
             $this->username,
             $this->password
@@ -78,6 +78,55 @@ class User implements UserInterface, \Serializable
     {
        list($this->id,
            $this->username,
-           $this->password) = $this->unserialize($serialized);
+           $this->password) = unserialize($serialized);
     }
+
+    /**
+     * @param mixed $email
+     */
+    public function setEmail($email): void
+    {
+        $this->email = $email;
+    }
+
+    /**
+     * @param mixed $fullName
+     */
+    public function setFullName($fullName): void
+    {
+        $this->fullName = $fullName;
+    }
+
+    /**
+     * @param mixed $username
+     */
+    public function setUsername($username): void
+    {
+        $this->username = $username;
+    }
+
+    /**
+     * @param mixed $password
+     */
+    public function setPassword($password): void
+    {
+        $this->password = $password;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFullName()
+    {
+        return $this->fullName;
+    }
+
 }
