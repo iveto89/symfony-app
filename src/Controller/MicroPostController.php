@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\MicroPost;
+use App\Entity\User;
 use App\Form\MicroPostType;
 use App\Repository\MicroPostRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -78,9 +79,14 @@ class MicroPostController
      */
     public function index()
     {
-        $html = $this->twig->render('micro-post/index.html.twig', [
-           'posts' => $this->microPostRepository->findBy([], ['time' => 'DESC'])
-        ]);
+        $html = $this->twig->render('micro-post/index.html.twig',
+            [
+                'posts' => $this->microPostRepository->findBy(
+                    [],
+                    ['time' => 'DESC']
+                )
+            ]
+        );
 
         return new Response($html);
     }
@@ -156,7 +162,6 @@ class MicroPostController
         $user = $tokenStorage->getToken()->getUser();
 
         $microPost = new MicroPost();
-        $microPost->setTime(new \DateTime());
         $microPost->setUser($user);
 
         $form = $this->formFactory->create(MicroPostType::class, $microPost);
@@ -177,6 +182,26 @@ class MicroPostController
                       ['form' => $form->createView()]
                 )
         );
+    }
+
+    /**
+     * @Route("/user/{username}", name="micro_post_user")
+     */
+    public function userPosts(User $userWithPosts)
+    {
+        $html = $this->twig->render(
+            'micro-post/user-posts.html.twig',
+            [
+//                'posts' => $this->microPostRepository->findBy(
+//                    ['user' => $userWithPosts],
+//                    ['time' => 'DESC']
+//                )
+                'posts' => $userWithPosts->getPosts(),
+                'user' => $userWithPosts
+            ]
+        );
+
+        return new Response($html);
     }
 
     /**
