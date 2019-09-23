@@ -90,6 +90,12 @@ class User implements AdvancedUserInterface, \Serializable
      * @ORM\Column(type="boolean")
      */
     private $enabled;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\UserPreferences", cascade={"persist"})
+     */
+    private $preferences;
+
     /**
      * User constructor.
      */
@@ -313,6 +319,22 @@ class User implements AdvancedUserInterface, \Serializable
     public function isEnabled()
     {
         return $this->enabled;
+    }
+
+    /**
+     * @return UserPreferences|null
+     */
+    public function getPreferences()
+    {
+        return $this->preferences;
+    }
+
+    /**
+     * @param mixed $preferences
+     */
+    public function setPreferences($preferences): void
+    {
+        $this->preferences = $preferences;
     }
 }
 
